@@ -22,7 +22,7 @@ export function Journey(){
     <span className="jr-period">{e.period}</span><strong>{e.company}</strong><small>{e.role}</small>
    </button>)}
   </div>
-  <article className="journey-card" id="role-panel" role="tabpanel" aria-labelledby={'role-'+active} key={active}>
+  <div className="journey-card" id="role-panel" role="tabpanel" aria-labelledby={'role-'+active} key={active}>
    <header>
     <span className="jc-badge" aria-hidden="true">{initials(r.company)}</span>
     <div><h3>{r.role}</h3><p className="jc-meta"><strong>{r.place}</strong><span>{r.location}</span><span>{r.period}</span>{current&&<em className="jc-now">Now</em>}</p></div>
@@ -30,7 +30,7 @@ export function Journey(){
    <p className="jc-summary">{r.detail}</p>
    <ul className="jc-points">{r.highlights!.map(h=><li key={h}>{h}</li>)}</ul>
    <div className="jc-stack"><span className="label">Stack</span>{r.stack!.map(t=><Chip key={t} name={t}/>)}</div>
-  </article>
+  </div>
   <div className="journey-edu">{schools.map(s=><div className="edu" key={s.role}><span className="label">Education · {s.period}</span><strong>{s.role}</strong><span>{s.place}</span></div>)}</div>
  </div>;
 }

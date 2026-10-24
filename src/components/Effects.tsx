@@ -53,7 +53,7 @@ export function NeuralOrb({className}:{className?:string}){
  const canvas=useRef<HTMLCanvasElement>(null);
  useEffect(()=>{
   const c=canvas.current,ctx=c?.getContext('2d');if(!c||!ctx)return;
-  const N=170,pts:[number,number,number][]=[];
+  const N=innerWidth<760?100:170,pts:[number,number,number][]=[];
   for(let i=0;i<N;i++){const yy=1-(i/(N-1))*2,r=Math.sqrt(1-yy*yy),th=i*2.399963;pts.push([Math.cos(th)*r,yy,Math.sin(th)*r])}
   // violet → cyan → pink across the sphere's height
   const hues=pts.map(([,py])=>py>0?255-py*65:255+(-py)*75);
@@ -71,7 +71,8 @@ export function NeuralOrb({className}:{className?:string}){
    proj.forEach(([x,y,z,s],i)=>{ctx.fillStyle=`hsl(${hues[i]} 85% 55%)`;ctx.globalAlpha=Math.max(.15,.85-z*.45);ctx.beginPath();ctx.arc(x,y,1.9*s,0,Math.PI*2);ctx.fill()});
    ctx.globalAlpha=1;
   };
-  const loop=(t:number)=>{if(visible)draw(t);raf=requestAnimationFrame(loop)};
+  // ~30fps is plenty for a slow rotation and halves the per-frame cost on phones
+  let last=0;const loop=(t:number)=>{if(visible&&t-last>=32){last=t;draw(t)}raf=requestAnimationFrame(loop)};
   const onMove=(e:PointerEvent)=>{ty=(e.clientX/innerWidth-.5)*.9;tx=(e.clientY/innerHeight-.5)*.5};
   const ro=new ResizeObserver(()=>{size();if(reduced())draw(0)});ro.observe(c);size();
   const vis=new IntersectionObserver(([e])=>{visible=e.isIntersecting});vis.observe(c);

@@ -29,8 +29,8 @@ export function AgentConsole(){
  };
  const linkify=(t:string)=>t.split(new RegExp(`(${RESUME}|${profile.email.replace('.','\\.')})`)).map((p,i)=>p===RESUME?<a key={i} href={RESUME} download>résumé PDF ↗</a>:p===profile.email?<a key={i} href={'mailto:'+p}>{p}</a>:p);
  return <>
-  <button className={'agent-fab '+(open?'agent-fab-hidden':'')} onClick={()=>setOpen(true)} data-magnetic aria-label="Ask my portfolio agent"><span className="agent-pulse"/>ASK MY AGENT</button>
-  <section className={'agent '+(open?'agent-open':'')} aria-label="Portfolio agent" aria-hidden={!open}>
+  <button className={'agent-fab '+(open?'agent-fab-hidden':'')} onClick={()=>setOpen(true)} data-magnetic aria-label="Ask my agent"><span className="agent-pulse"/>ASK MY AGENT</button>
+  <section className={'agent '+(open?'agent-open':'')} aria-label="Portfolio agent" inert={!open}>
    <header className="agent-head"><div><span className="agent-dot"/><strong>prudhvi.agent</strong><small>grounded in résumé · no LLM calls</small></div><button onClick={()=>setOpen(false)} aria-label="Close agent">×</button></header>
    <div className="agent-log" ref={log} aria-live="polite">{msgs.map((m,i)=><div key={i} className={'agent-msg agent-'+m.role}>{m.trace&&m.trace.length>0&&<ol className="agent-trace">{m.trace.map(t=><li key={t}>{t}</li>)}</ol>}{(m.text||m.role==='user')&&<p>{linkify(m.text)}{m.role==='agent'&&!m.done&&<i className="caret"/>}</p>}</div>)}</div>
    <div className="agent-chips">{suggestions.map(s=><button key={s} onClick={()=>ask(s)} disabled={busy}>{s}</button>)}</div>
