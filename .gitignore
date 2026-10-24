@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+.next-verify/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# deployment & env
+.vercel/
+.env*
+
+# OS / editor
+.DS_Store
+*.log
+
+# personal editor settings
+.vscode/
